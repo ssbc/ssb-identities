@@ -29,6 +29,14 @@ exports.init = function (sbot, config) {
   var keymap = {}
   var locks = {}
 
+  if(sbot.unboxers)
+    sbot.unboxers(function (content) {
+      for(var i = 0; i < keys.length; i++) {
+        var plaintext = _unbox(content, keys[i])
+        if(plaintext) return plaintext
+      }
+    })
+
   return {
     main: function () {
       return sbot.id
@@ -71,7 +79,7 @@ exports.init = function (sbot, config) {
           timestamp: data.value.timestamp,
           queue: []
         } : {id: null, sequence: null, timestamp: null, queue: []}
-        sbot.add(create(state, _keys, config.caps.sign, content, Date.now()), function (err, a, b) {
+        sbot.add(create(state, _keys, config.caps && config.caps.sign, content, Date.now()), function (err, a, b) {
           delete locks[id]
           cb(err, a, b)
         })
@@ -79,11 +87,4 @@ exports.init = function (sbot, config) {
     }
   }
 }
-
-
-
-
-
-
-
 
