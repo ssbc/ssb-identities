@@ -5,6 +5,7 @@ var fs = require('fs')
 var ssbKeys = require('ssb-keys')
 var create = require('ssb-validate').create
 var ref = require('ssb-ref')
+var unbox = require('ssb-keys').unbox
 
 exports.name = 'identities'
 exports.version = '1.0.0'
@@ -25,17 +26,16 @@ exports.init = function (sbot, config) {
   }).map(function (file) {
     return ssbKeys.loadSync(path.join(dir, file))
   })
-  
+
   var keymap = {}
   var locks = {}
 
-  if(sbot.unboxers)
-    sbot.unboxers(function (content) {
-      for(var i = 0; i < keys.length; i++) {
-        var plaintext = _unbox(content, keys[i])
-        if(plaintext) return plaintext
-      }
-    })
+  sbot.addUnboxer(function(content) {
+    for(var i = 0;i < keys.length;i++) {
+      var plaintext = unbox(content, keys[i])
+      if(plaintext) return plaintext
+    }
+  });
 
   return {
     main: function () {
