@@ -53,8 +53,9 @@ exports.init = function (sbot, config) {
         following: true,
         autofollow: true,
         contact: newKeys.id,
+      }, function(err, msg) {
+        cb(err, newKeys.id)
       })
-      cb(null, newKeys.id)
     },
     publishAs: function (opts, cb) {
       var id = opts.id
