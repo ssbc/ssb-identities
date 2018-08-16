@@ -6,6 +6,10 @@ var ssbKeys = require('ssb-keys')
 var create = require('ssb-validate').create
 var ref = require('ssb-ref')
 
+function toTarget (t) {
+  return 'object' === typeof t ? t && t.link : t
+}
+
 exports.name = 'identities'
 exports.version = '1.0.0'
 exports.manifest = {
@@ -51,6 +55,7 @@ exports.init = function (sbot, config) {
       cb(null, newKeys.id)
     },
     publishAs: function (opts, cb) {
+      console.log('publishAs', opts)
       var id = opts.id
       if(locks[id]) return cb(new Error('already writing'))
       var _keys = sbot.id === id ? sbot.keys : keys.find(function (e) {
@@ -59,16 +64,16 @@ exports.init = function (sbot, config) {
       if(!_keys) return cb(new Error('must provide id of listed identities'))
       var content = opts.content
 
+      var recps = [].concat(content.recps).map(toTarget)
+
       if(content.recps && !opts.private)
         return cb(new Error('recps set, but opts.private not set'))
       else if(!content.recps && opts.private)
         return cb(new Error('opts.private set, but content.recps not set'))
       else if(!!content.recps && opts.private) {
-        if(!Array.isArray(content.recps) || !~content.recps.indexOf(id))
-          return cb(new Error('content.recps must be an array containing publisher id:'+id))
-        content = ssbKeys.box(content, content.recps.map(function (e) {
-          return ref.isFeed(e) ? e : e.link
-        }))
+        if(!Array.isArray(content.recps) || !~recps.indexOf(id))
+          return cb(new Error('content.recps must be an array containing publisher id:'+id+' was:'+JSON.stringify(recps)+' indexOf:'+recps.indexOf(id)))
+        content = ssbKeys.box(content, recps)
       }
 
       locks[id] = true
@@ -87,4 +92,10 @@ exports.init = function (sbot, config) {
     }
   }
 }
+
+
+
+
+
+
 
