@@ -5,6 +5,7 @@ var fs = require('fs')
 var ssbKeys = require('ssb-keys')
 var create = require('ssb-validate').create
 var ref = require('ssb-ref')
+var unbox = require('ssb-keys').unbox
 
 function toTarget (t) {
   return 'object' === typeof t ? t && t.link : t
@@ -29,17 +30,16 @@ exports.init = function (sbot, config) {
   }).map(function (file) {
     return ssbKeys.loadSync(path.join(dir, file))
   })
-  
+
   var keymap = {}
   var locks = {}
 
-  if(sbot.unboxers)
-    sbot.unboxers(function (content) {
-      for(var i = 0; i < keys.length; i++) {
-        var plaintext = _unbox(content, keys[i])
-        if(plaintext) return plaintext
-      }
-    })
+  sbot.addUnboxer(function(content) {
+    for(var i = 0;i < keys.length;i++) {
+      var plaintext = unbox(content, keys[i])
+      if(plaintext) return plaintext
+    }
+  });
 
   return {
     main: function () {
@@ -52,7 +52,14 @@ exports.init = function (sbot, config) {
       var filename = 'secret_'+leftpad(keys.length, 2, '0')+'.butt'
       var newKeys = ssbKeys.createSync(path.join(dir, filename))
       keys.push(newKeys)
-      cb(null, newKeys.id)
+      sbot.publish({
+        type: 'contact',
+        following: true,
+        autofollow: true,
+        contact: newKeys.id,
+      }, function(err, msg) {
+        cb(err, newKeys.id)
+      })
     },
     publishAs: function (opts, cb) {
       console.log('publishAs', opts)
