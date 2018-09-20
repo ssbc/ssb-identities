@@ -56,7 +56,7 @@ exports.init = function (sbot, config) {
       var filename = 'secret_'+leftpad(keys.length, 2, '0')+'.butt'
       ssbKeys.create(path.join(dir, filename), function (err, newKeys) {
         keys.push(newKeys)
-        cb(null, newKeys.id)
+        cb(err, newKeys.id)
       })
     },
     publishAs: function (opts, cb) {
