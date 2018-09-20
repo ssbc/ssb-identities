@@ -52,17 +52,9 @@ exports.init = function (sbot, config) {
       var filename = 'secret_'+leftpad(keys.length, 2, '0')+'.butt'
       var newKeys = ssbKeys.createSync(path.join(dir, filename))
       keys.push(newKeys)
-      sbot.publish({
-        type: 'contact',
-        following: true,
-        autofollow: true,
-        contact: newKeys.id,
-      }, function(err, msg) {
-        cb(err, newKeys.id)
-      })
+      cb(err, newKeys.id)
     },
     publishAs: function (opts, cb) {
-      console.log('publishAs', opts)
       var id = opts.id
       if(locks[id]) return cb(new Error('already writing'))
       var _keys = sbot.id === id ? sbot.keys : keys.find(function (e) {
@@ -99,10 +91,5 @@ exports.init = function (sbot, config) {
     }
   }
 }
-
-
-
-
-
 
 
