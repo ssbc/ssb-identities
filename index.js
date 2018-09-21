@@ -5,6 +5,7 @@ var fs = require('fs')
 var ssbKeys = require('ssb-keys')
 var create = require('ssb-validate').create
 var ref = require('ssb-ref')
+var unbox = ssbKeys.unbox
 var unboxKey = ssbKeys.unboxKey
 var unboxBody = ssbKeys.unboxBody
 
