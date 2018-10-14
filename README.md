@@ -2,7 +2,25 @@
 
 manage multiple ssb identities, as an sbot plugin.
 
-## api
+## Usage
+
+```js
+var sbot = require('scuttlebot')
+  .use(require('scuttlebot/plugins/master'))
+  .use(require('scuttlebot/plugins/gossip'))
+  .use(require('scuttlebot/plugins/replicate'))
+  .use(require('ssb-identities'))
+  .call(null, config)
+  
+// locally or via an remote ssb-client connection
+
+sbot.identities.list(function (err, data) {
+  // do things
+})
+```
+
+
+## API
 
 ## identities.main (cb)
 
