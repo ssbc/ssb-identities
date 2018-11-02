@@ -36,12 +36,15 @@ exports.init = function (sbot, config) {
   var keymap = {}
   var locks = {}
 
-  sbot.addUnboxer(function (content, value) {
-    for(var i = 0;i < keys.length;i++) {
-      var plaintext = unbox(content, keys[i])
-      if(plaintext) return plaintext
-    }
-  });
+  sbot.addUnboxer({
+    key: function (content) {
+      for(var i = 0;i < keys.length;i++) {
+        var key = ssbKeys.unboxKey(content, keys[i])
+        if(key) return key
+      }
+    },
+    value: function (content, key) { return ssbKeys.unboxBody(content, key) }
+  })
 
   return {
     main: function () {
@@ -94,6 +97,11 @@ exports.init = function (sbot, config) {
     }
   }
 }
+
+
+
+
+
 
 
 
