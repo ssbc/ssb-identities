@@ -2,10 +2,10 @@
   "name": "ssb-identities",
   "description": "",
   "version": "2.0.6",
-  "homepage": "https://github.com/dominictarr/ssb-identities",
+  "homepage": "https://github.com/ssbc/ssb-identities",
   "repository": {
     "type": "git",
-    "url": "git://github.com/dominictarr/ssb-identities.git"
+    "url": "git://github.com/ssbc/ssb-identities.git"
   },
   "dependencies": {
     "left-pad": "^1.3.0",
