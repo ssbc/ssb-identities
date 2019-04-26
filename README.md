@@ -5,20 +5,19 @@ manage multiple ssb identities, as an sbot plugin.
 ## Usage
 
 ```js
-var sbot = require('scuttlebot')
+var createSbot = require('scuttlebot')
   .use(require('scuttlebot/plugins/master'))
   .use(require('scuttlebot/plugins/gossip'))
   .use(require('scuttlebot/plugins/replicate'))
   .use(require('ssb-identities'))
-  .call(null, config)
-  
+
+var sbot = createSbot(config)
 // locally or via an remote ssb-client connection
 
 sbot.identities.list(function (err, data) {
   // do things
 })
 ```
-
 
 ## API
 
@@ -37,6 +36,8 @@ create a new identity, stored in `~/.ssb/identities/secret_[N].butt`
 where N is the left-padded number of this identity.
 returns the id of the newly created identity.
 
+The file created will use [the ssb-keys format](https://github.com/ssbc/ssb-keys#keys)`
+
 ### identities.publishAs({id:id, content: obj, private: boolean}, cb) 
 
 publish a message as a specific identity.
@@ -51,4 +52,5 @@ For more information about these type of plugins, refer to the [`plugins.md` in 
 ## License
 
 MIT
+
 
