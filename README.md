@@ -19,6 +19,10 @@ sbot.identities.list(function (err, data) {
 })
 ```
 
+This module uses the [addUnboxer](https://github.com/ssbc/ssb-db#addunboxer-keyunboxkey-value-unboxvalue)
+method of ssb db so that encrypted messages will be decrypted before being passed
+to database views.
+
 ## API
 
 ### identities.main (cb)
