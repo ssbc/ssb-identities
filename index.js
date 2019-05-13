@@ -19,7 +19,8 @@ exports.manifest = {
   main: 'sync',
   list: 'async',
   create: 'async',
-  publishAs: 'async'
+  publishAs: 'async',
+  help: 'sync'
 }
 
 exports.init = function (sbot, config) {
@@ -94,6 +95,9 @@ exports.init = function (sbot, config) {
           cb(err, a, b)
         })
       })
+    },
+    help: function () {
+      return require('./help')
     }
   }
 }
