@@ -1,5 +1,5 @@
 var tape = require('tape')
-var Scuttlebot = require('scuttlebot')
+var Scuttlebot = require('ssb-server')
 var cont = require('cont')
 var ssbKeys = require('ssb-keys')
 var other = ssbKeys.generate()
@@ -10,7 +10,7 @@ Scuttlebot
 var sbot = Scuttlebot({
   temp: 'identities',
   caps: {
-    sign: require('crypto')
+    shs: require('crypto')
       .randomBytes(32).toString('base64')
   }
 })

@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "cont": "^1.0.3",
-    "scuttlebot": "^11.3.0",
+    "ssb-server": "^15.1.1",
     "tape": "^4.9.0"
   },
   "scripts": {
