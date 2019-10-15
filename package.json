@@ -1,6 +1,6 @@
 {
   "name": "ssb-identities",
-  "description": "",
+  "description": "use multiple identities from a single sbot instance",
   "version": "2.1.0",
   "homepage": "https://github.com/ssbc/ssb-identities",
   "repository": {
