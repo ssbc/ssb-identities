@@ -10,6 +10,8 @@ Scuttlebot
 var sbot = Scuttlebot({
   temp: 'identities',
   caps: {
+    sign: require('crypto')
+      .randomBytes(32).toString('base64'),
     shs: require('crypto')
       .randomBytes(32).toString('base64')
   }
@@ -151,6 +153,3 @@ tape('close', function (t) {
   sbot.close()
   t.end()
 })
-
-
-
